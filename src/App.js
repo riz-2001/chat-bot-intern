@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Chatbot from 'react-chatbot-kit';
+import 'react-chatbot-kit/build/main.css';
+import config from './chatbot/config';
+import ActionProvider from './chatbot/ActionProvider';
+import MessageParser from './chatbot/MessageParser';
+
 import './App.css';
 
 function App() {
+  const [isChatOpen, setIsChatOpen] = useState(true);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className='App'>
+      {!isChatOpen ? (
+        <button onClick={() => setIsChatOpen(true)}> Enroll Now!</button>
+      ) : (
+        <div
+          style={{
+            minWidth: '300px',
+            // overflow: 'scroll',
+            // backgroundColor: 'green',
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Chatbot
+            config={config}
+            messageParser={MessageParser}
+            actionProvider={ActionProvider}
+          />
+        </div>
+      )}
     </div>
   );
 }
