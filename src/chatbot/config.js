@@ -8,7 +8,7 @@ const botName = 'Bot';
 
 const config = {
   initialMessages: [
-    createChatBotMessage(<InitialChatMessage />, ),
+    createChatBotMessage(<InitialChatMessage />),
     createCustomMessage('Custom', 'custom'),
   ],
   botName,
@@ -21,7 +21,7 @@ const config = {
       widgetFunc: (props) => <GotIt {...props} />,
     },
     {
-      widgetName: 'dateSlot',
+      widgetName: 'datePicker',
       widgetFunc: (props) => <Slot {...props} />,
     },
     {

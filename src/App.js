@@ -17,8 +17,6 @@ function App() {
         <div
           style={{
             minWidth: '300px',
-            // overflow: 'scroll',
-            // backgroundColor: 'green',
           }}
         >
           <Chatbot

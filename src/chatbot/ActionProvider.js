@@ -19,7 +19,7 @@ class ActionProvider {
 
   calenderSlots = () => {
     const botMessage = this.createChatBotMessage('Pick a date', {
-      // widget: 'gotIt',
+      widget: 'datePicker',
     });
     this.addMessageToState(botMessage);
   };
