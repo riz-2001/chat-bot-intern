@@ -77,7 +77,7 @@ function Slide({ data, handleDateClick, handleScrollLeft, handleScrollRight }) {
     <div className='w-full flex items-center'>
       <span
         className={`bg-slate-300 p-2 rounded-full cursor-pointer ${
-          enablePrev ? '' : 'opacity-60 cursor-default'
+          enablePrev ? '' : 'opacity-60 cursor-auto'
         }`}
         onClick={() => {
           if (!enablePrev) {
@@ -123,13 +123,13 @@ function Slide({ data, handleDateClick, handleScrollLeft, handleScrollRight }) {
             <div
               className={`text-xs rounded-md p-2 m-1 border-2 cursor-pointer ${
                 classes.container
-              } ${lastDay ? 'opacity-60' : ''}`}
+              } ${lastDay ? 'opacity-60 cursor-auto' : ''}`}
               key={d.id}
               onClick={() => {
                 if (lastDay) return;
                 setSelectedDate(d);
                 selectedRef.current = i;
-                handleDateClick(d.id);
+                handleDateClick(d);
               }}
             >
               <p className='flex items-center justify-center flex-col'>

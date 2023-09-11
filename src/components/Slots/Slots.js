@@ -1,13 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import Slide from '../Slide/Slide';
+import TimeSlot from './TimeSlot';
 
 function Slot(props) {
-  const moring = ['08:00 AM', '9:00 AM', '10:00 AM', '11:00 PM'];
-  const afternoon = ['02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'];
-  const evening = ['06:00 PM', '07:00 PM', '08:00 PM', '09:00 PM'];
-  let backRef = useRef(2);
-  let frontRef = useRef(2);
+  const moring = ['08:00 am', '09:00 am', '10:00 am', '11:00 pm'];
+  const afternoon = ['02:00 pm', '03:00 pm', '04:00 pm', '05:00 pm'];
+  const evening = ['06:00 pm', '07:00 pm', '08:00 pm', '09:00 pm'];
+  const [selectedDate, setSelectedDate] = useState(
+    moment().format('DD/MM/YYYY')
+  );
   const [dates, setDates] = useState([
     {
       date: moment().subtract(1, 'day'),
@@ -23,10 +25,9 @@ function Slot(props) {
     },
   ]);
 
-  const handleDateClick = (id) => {
-    let idx = dates.findIndex((x) => x.id === id);
-    let arr = dates.slice(idx);
-    console.log(arr);
+  const handleDateClick = (date) => {
+    let d = moment(date).format('DD/MM/YYYY');
+    setSelectedDate(d);
   };
 
   const handleScrollLeft = () => {
@@ -38,7 +39,6 @@ function Slot(props) {
       date: d,
       id: Date.now(),
     };
-
     let date = [...dates];
     date.pop();
     setDates([obj, ...date]);
@@ -55,6 +55,12 @@ function Slot(props) {
     setDates([...date, obj]);
   };
 
+  const handleClickOnTime = (d) => {
+    let dateTime = selectedDate;
+    dateTime += ' ' + d;
+    setSelectedDate(dateTime);
+  };
+
   return (
     <div>
       <Slide
@@ -63,7 +69,14 @@ function Slot(props) {
         handleScrollLeft={handleScrollLeft}
         handleScrollRight={handleScrollRight}
       />
-      <div></div>
+      <div className='text-xs'>
+        <p className='m-1 mt-2 text-slate-500'>Morning</p>
+        <TimeSlot handleClickOnTime={handleClickOnTime} time={moring} />
+        <p className='m-1 mt-2 text-slate-500'>Afternoon</p>
+        <TimeSlot handleClickOnTime={handleClickOnTime} time={afternoon} />
+        <p className='m-1 mt-2 text-slate-500'>Evening</p>
+        <TimeSlot handleClickOnTime={handleClickOnTime} time={evening} />
+      </div>
     </div>
   );
 }
