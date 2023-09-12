@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import Select from 'react-dropdown-select';
 import { FadeIn } from 'react-anim-kit';
+import { useDispatch } from 'react-redux';
+import { setUserAge } from '../redux/reducer';
 
 function AgeDropDown(props) {
+  const dispatch = useDispatch();
   const [hidden, setHidden] = useState(false);
   const handleHide = () => setHidden(true);
   const onChange = (value) => {
     props.actionProvider.handleUserMessage(value[0].value);
     handleHide();
     setTimeout(() => props.actionProvider.handleUserAge(), 500);
+    dispatch(setUserAge(value[0].value));
   };
   const options = Array.from({ length: 23 }, (_, index) => {
     return {

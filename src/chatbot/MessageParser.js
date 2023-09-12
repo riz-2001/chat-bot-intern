@@ -1,5 +1,8 @@
 // in MessageParser.jsx
 
+import store from '../redux/store';
+import { setUserName } from '../redux/reducer';
+
 class MessageParser {
   constructor(actionProvider, state) {
     this.actionProvider = actionProvider;
@@ -15,10 +18,9 @@ class MessageParser {
       return this.actionProvider.calenderSlots();
     }
     if (userMsg === 'Enter your name') {
+      store.dispatch(setUserName(message));
       return this.actionProvider.askUserAge();
     }
-
-    // return this.actionProvider.handleOptions({ withAvatar: true });
   }
 }
 

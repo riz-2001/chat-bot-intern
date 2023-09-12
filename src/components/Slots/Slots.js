@@ -4,8 +4,12 @@ import { FadeIn } from 'react-anim-kit';
 import Slide from './Slide';
 import TimeSlot from './TimeSlot';
 import { getWeekDay } from '../../helpers/helperFunctions';
+import { useDispatch } from 'react-redux';
+import { setDateTimeSlot } from '../../redux/reducer';
 
 function Slot(props) {
+  const dispatch = useDispatch();
+
   const moring = ['08:00 am', '09:00 am', '10:00 am', '11:00 pm'];
   const afternoon = ['02:00 pm', '03:00 pm', '04:00 pm', '05:00 pm'];
   const evening = ['06:00 pm', '07:00 pm', '08:00 pm', '09:00 pm'];
@@ -36,7 +40,6 @@ function Slot(props) {
   const handleDateClick = (date) => {
     let monthDay = moment(date).format('MMM DD');
     let weekDay = getWeekDay(moment(date).day());
-    console.log(monthDay + ', ' + weekDay);
     setSelectedDate(monthDay + ', ' + weekDay);
   };
 
@@ -82,6 +85,7 @@ function Slot(props) {
       idx,
       timeOfTheDay,
     });
+    dispatch(setDateTimeSlot(dateTime));
     setTimeout(() => {
       props.actionProvider.handleUserMessage(dateTime);
       handleHide();
