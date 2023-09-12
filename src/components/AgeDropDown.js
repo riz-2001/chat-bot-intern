@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-dropdown-select';
+import { FadeIn } from 'react-anim-kit';
 
 function AgeDropDown(props) {
+  const [hidden, setHidden] = useState(false);
+  const handleHide = () => setHidden(true);
   const onChange = (value) => {
-    console.log(value);
+    handleHide();
     props.actionProvider.handleUserAge();
   };
   const options = Array.from({ length: 23 }, (_, index) => {
@@ -15,16 +18,25 @@ function AgeDropDown(props) {
   });
 
   return (
-    <div className='flex items-center justify-center'>
-      <Select
-        autoFocus
-        dropdownGap={1}
-        dropdownHeight={'100px'}
-        style={{ width: '120px' }}
-        options={options}
-        onChange={(values) => onChange(values)}
-      />
-    </div>
+    <>
+      {hidden ? (
+        <></>
+      ) : (
+        <FadeIn right by={300}>
+          <div className='flex items-center justify-center'>
+            <Select
+              dropdownPosition='auto'
+              autoFocus
+              dropdownGap={1}
+              dropdownHeight={'100px'}
+              style={{ width: '120px' }}
+              options={options}
+              onChange={(values) => onChange(values)}
+            />
+          </div>
+        </FadeIn>
+      )}
+    </>
   );
 }
 

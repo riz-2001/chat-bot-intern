@@ -9,14 +9,9 @@ class ActionProvider {
     this.createClientMessage = createClientMessage;
   }
 
-  handleInitialResponse = () => {
-    const botMessage = this.createChatBotMessage(
-      "Here's a nice dog picture for you!",
-      {
-        widget: 'gotIt',
-      }
-    );
-    this.addMessageToState(botMessage);
+  handleUserMessage = (text) => {
+    const clientMsg = this.createClientMessage(text);
+    this.addMessageToState(clientMsg);
   };
 
   calenderSlots = () => {
@@ -32,7 +27,7 @@ class ActionProvider {
   };
 
   askUserAge = () => {
-    const botMessage = this.createChatBotMessage('Enter your age', {
+    const botMessage = this.createChatBotMessage('Select your age', {
       widget: 'agePicker',
     });
     this.addMessageToState(botMessage);
@@ -41,11 +36,6 @@ class ActionProvider {
   handleUserAge = () => {
     const botMessage = this.createChatBotMessage(<ExitComponent />);
     this.addMessageToState(botMessage);
-  };
-
-  handleUserPickedSlot = (dateTime) => {
-    const clientMsg = this.createClientMessage(dateTime);
-    this.addMessageToState(clientMsg);
   };
 
   addMessageToState = (message) => {

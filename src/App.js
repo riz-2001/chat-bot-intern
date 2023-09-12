@@ -1,32 +1,19 @@
 import React, { useState } from 'react';
-import Chatbot from 'react-chatbot-kit';
 import 'react-chatbot-kit/build/main.css';
-import config from './chatbot/config';
-import ActionProvider from './chatbot/ActionProvider';
-import MessageParser from './chatbot/MessageParser';
+import { Routes, Route } from 'react-router-dom';
 
 import './App.css';
+import Home from './pages/home';
+import NotFound from './pages/NotFound';
+import Result from './pages/result';
 
 function App() {
-  const [isChatOpen, setIsChatOpen] = useState(true);
   return (
-    <div className='App'>
-      {!isChatOpen ? (
-        <button onClick={() => setIsChatOpen(true)}> Enroll Now!</button>
-      ) : (
-        <div
-          style={{
-            minWidth: '300px',
-          }}
-        >
-          <Chatbot
-            config={config}
-            messageParser={MessageParser}
-            actionProvider={ActionProvider}
-          />
-        </div>
-      )}
-    </div>
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/submitted' element={<Result />} />
+      <Route path='*' element={<NotFound />} />
+    </Routes>
   );
 }
 

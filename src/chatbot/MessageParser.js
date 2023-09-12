@@ -8,19 +8,14 @@ class MessageParser {
   parse(message) {
     message = message.toLowerCase();
     console.log(message);
-    if (message == 'Got it') {
-      return this.actionProvider.handleInitialResponse();
+    const userMsg =
+      this.state.messages[this.state.messages.length - 1]?.message;
+
+    if (userMsg === 'Got it!' && message == 'got it') {
+      return this.actionProvider.calenderSlots();
     }
-    if (
-      this.state.messages[this.state.messages.length - 1].message ===
-      'Enter your name'
-    ) {
+    if (userMsg === 'Enter your name') {
       return this.actionProvider.askUserAge();
-    }
-    if (
-      this.state.messages[this.state.messages.length - 1].message ===
-      'Enter your age'
-    ) {
     }
 
     // return this.actionProvider.handleOptions({ withAvatar: true });

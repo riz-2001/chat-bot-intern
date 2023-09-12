@@ -3,10 +3,10 @@ import React from 'react';
 function TimeSlot({ time, handleClickOnTime, timeOfTheDay, activeElement }) {
   let classes = 'border-2 p-1 rounded-md whitespace-nowrap cursor-pointer ';
   const activeClass = classes + 'bg-sky-500 text-white';
-  classes += 'text-gray-400 hover:bg-sky-500 hover:text-white';
+  classes += 'text-gray-500 hover:bg-sky-500 hover:text-white';
   return (
     <>
-      <p className='m-1 mt-2 text-slate-500 capitalize'>{timeOfTheDay}</p>
+      <p className='m-1 mt-2 text-slate-600 capitalize'>{timeOfTheDay}</p>
       <div className='flex align-middle flex-nowrap justify-evenly'>
         {time.map((item, idx) => {
           return (

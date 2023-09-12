@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import Slide from '../Slide/Slide';
+import { FadeIn } from 'react-anim-kit';
+import Slide from './Slide';
 import TimeSlot from './TimeSlot';
 import { getWeekDay } from '../../helpers/helperFunctions';
 
@@ -8,6 +9,7 @@ function Slot(props) {
   const moring = ['08:00 am', '09:00 am', '10:00 am', '11:00 pm'];
   const afternoon = ['02:00 pm', '03:00 pm', '04:00 pm', '05:00 pm'];
   const evening = ['06:00 pm', '07:00 pm', '08:00 pm', '09:00 pm'];
+  const [hidden, setHidden] = useState(false);
   const mDay = moment().format('MMM DD');
   const wDay = getWeekDay(moment().day());
   const [selectedDate, setSelectedDate] = useState(mDay + ', ' + wDay);
@@ -30,6 +32,7 @@ function Slot(props) {
     },
   ]);
 
+  const handleHide = () => setHidden(true);
   const handleDateClick = (date) => {
     let monthDay = moment(date).format('MMM DD');
     let weekDay = getWeekDay(moment(date).day());
@@ -75,44 +78,54 @@ function Slot(props) {
   const handleClickOnTime = (date, timeOfTheDay, idx) => {
     let dateTime = selectedDate;
     dateTime += ' ' + date;
-
     setSelectedTime({
       idx,
       timeOfTheDay,
     });
-    setTimeout(() => props.actionProvider.handleUserPickedSlot(dateTime), 300);
+    setTimeout(() => {
+      props.actionProvider.handleUserMessage(dateTime);
+      handleHide();
+    }, 400);
     setTimeout(() => props.actionProvider.askUserName(), 900);
   };
 
   return (
-    <div className='mb-1'>
-      <Slide
-        data={dates}
-        handleDateClick={handleDateClick}
-        handleScrollLeft={handleScrollLeft}
-        handleScrollRight={handleScrollRight}
-      />
-      <div className='text-xs'>
-        <TimeSlot
-          activeElement={selectedTime}
-          handleClickOnTime={handleClickOnTime}
-          time={moring}
-          timeOfTheDay='morning'
-        />
-        <TimeSlot
-          activeElement={selectedTime}
-          handleClickOnTime={handleClickOnTime}
-          time={afternoon}
-          timeOfTheDay='afternoon'
-        />
-        <TimeSlot
-          activeElement={selectedTime}
-          handleClickOnTime={handleClickOnTime}
-          time={evening}
-          timeOfTheDay='evening'
-        />
-      </div>
-    </div>
+    <>
+      {hidden ? (
+        <></>
+      ) : (
+        <FadeIn right by={30}>
+          <div className='mb-1'>
+            <Slide
+              data={dates}
+              handleDateClick={handleDateClick}
+              handleScrollLeft={handleScrollLeft}
+              handleScrollRight={handleScrollRight}
+            />
+            <div className='text-xs'>
+              <TimeSlot
+                activeElement={selectedTime}
+                handleClickOnTime={handleClickOnTime}
+                time={moring}
+                timeOfTheDay='morning'
+              />
+              <TimeSlot
+                activeElement={selectedTime}
+                handleClickOnTime={handleClickOnTime}
+                time={afternoon}
+                timeOfTheDay='afternoon'
+              />
+              <TimeSlot
+                activeElement={selectedTime}
+                handleClickOnTime={handleClickOnTime}
+                time={evening}
+                timeOfTheDay='evening'
+              />
+            </div>
+          </div>
+        </FadeIn>
+      )}
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 import { createChatBotMessage, createCustomMessage } from 'react-chatbot-kit';
 import InitialChatMessage from '../components/InitialChatMsg';
-import GotIt from '../components/UserReplys/GotIt';
+import GotIt from '../components/GotIt';
 import Slot from '../components/Slots/Slots';
 import AgeDropDown from '../components/AgeDropDown';
 const botName = 'Bot';
@@ -11,6 +11,14 @@ const config = {
     createCustomMessage('Custom', 'custom'),
   ],
   botName,
+  customStyles: {
+    botMessageBox: {
+      backgroundColor: 'rgb(14 165 233)',
+    },
+    chatButton: {
+      backgroundColor: 'rgb(14 165 233)',
+    },
+  },
   customMessages: {
     custom: (props) => <GotIt {...props} />,
   },
