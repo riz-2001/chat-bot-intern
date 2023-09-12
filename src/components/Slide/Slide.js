@@ -2,12 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import rightImg from '../../images/right.png';
 import leftImg from '../../images/left.png';
 import moment from 'moment';
-
-function checkPrevDate(d) {
-  let date = moment(d);
-  var iscurrentDate = date.isSame(new Date(), 'day');
-  return !iscurrentDate;
-}
+import { getWeekDay, checkPrevDate } from '../../helpers/helperFunctions';
 
 function Slide({ data, handleDateClick, handleScrollLeft, handleScrollRight }) {
   const ref = useRef();
@@ -41,27 +36,6 @@ function Slide({ data, handleDateClick, handleScrollLeft, handleScrollRight }) {
     }, 300);
 
     setTimeoutId(id);
-  };
-
-  const getWeekDay = (day) => {
-    switch (day) {
-      case 0:
-        return 'Sun';
-      case 1:
-        return 'Mon';
-      case 2:
-        return 'Tue';
-      case 3:
-        return 'Wed';
-      case 4:
-        return 'Thu';
-      case 5:
-        return 'Fri';
-      case 6:
-        return 'Sat';
-      default:
-        return '';
-    }
   };
 
   useEffect(() => {
@@ -129,7 +103,7 @@ function Slide({ data, handleDateClick, handleScrollLeft, handleScrollRight }) {
                 if (lastDay) return;
                 setSelectedDate(d);
                 selectedRef.current = i;
-                handleDateClick(d);
+                handleDateClick(d.date);
               }}
             >
               <p className='flex items-center justify-center flex-col'>

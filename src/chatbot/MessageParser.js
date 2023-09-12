@@ -5,52 +5,23 @@ class MessageParser {
     this.actionProvider = actionProvider;
     this.state = state;
   }
-
   parse(message) {
     message = message.toLowerCase();
     console.log(message);
-
     if (message == 'Got it') {
       return this.actionProvider.handleInitialResponse();
     }
-
-    // if (
-    //   message.includes('talk') ||
-    //   message.includes('speak') ||
-    //   message.includes('real person') ||
-    //   message.includes('call') ||
-    //   message.includes('emergency') ||
-    //   message.includes('contact')
-    // ) {
-    //   return this.actionProvider.handleContact();
-    // }
-
-    // if (
-    //   message.includes('stats') ||
-    //   message.includes('statistics') ||
-    //   message.includes('deaths')
-    // ) {
-    //   return [
-    //     this.actionProvider.handleGlobalStats(),
-    //     this.actionProvider.handleLocalStats(),
-    //   ];
-    // }
-
-    // if (message.includes('medicine') || message.includes('delivery')) {
-    //   return this.actionProvider.handleMedicine();
-    // }
-
-    // if (
-    //   message.includes('joke') ||
-    //   message.includes('jokes') ||
-    //   message.includes('funny')
-    // ) {
-    //   return this.actionProvider.handleJoke();
-    // }
-
-    // if (message.includes('thanks') || message.includes('thank you')) {
-    //   return this.actionProvider.handleThanks();
-    // }
+    if (
+      this.state.messages[this.state.messages.length - 1].message ===
+      'Enter your name'
+    ) {
+      return this.actionProvider.askUserAge();
+    }
+    if (
+      this.state.messages[this.state.messages.length - 1].message ===
+      'Enter your age'
+    ) {
+    }
 
     // return this.actionProvider.handleOptions({ withAvatar: true });
   }

@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import Slide from '../Slide/Slide';
 import TimeSlot from './TimeSlot';
+import { getWeekDay } from '../../helpers/helperFunctions';
 
 function Slot(props) {
   const moring = ['08:00 am', '09:00 am', '10:00 am', '11:00 pm'];
   const afternoon = ['02:00 pm', '03:00 pm', '04:00 pm', '05:00 pm'];
   const evening = ['06:00 pm', '07:00 pm', '08:00 pm', '09:00 pm'];
-  const [selectedDate, setSelectedDate] = useState(
-    moment().format('DD/MM/YYYY')
-  );
+  const mDay = moment().format('MMM DD');
+  const wDay = getWeekDay(moment().day());
+  const [selectedDate, setSelectedDate] = useState(mDay + ', ' + wDay);
+  const [selectedTime, setSelectedTime] = useState({
+    idx: null,
+    timeOfTheDay: null,
+  });
   const [dates, setDates] = useState([
     {
       date: moment().subtract(1, 'day'),
@@ -26,13 +31,16 @@ function Slot(props) {
   ]);
 
   const handleDateClick = (date) => {
-    let d = moment(date).format('DD/MM/YYYY');
-    setSelectedDate(d);
+    let monthDay = moment(date).format('MMM DD');
+    let weekDay = getWeekDay(moment(date).day());
+    console.log(monthDay + ', ' + weekDay);
+    setSelectedDate(monthDay + ', ' + weekDay);
   };
 
   const handleScrollLeft = () => {
     let yesterday = moment().subtract(2, 'day');
     let d = moment(dates[0].date).subtract(1, 'day');
+    handleDateClick(d);
     let lastDay = d.isSame(yesterday, 'day');
     if (lastDay) return;
     let obj = {
@@ -42,10 +50,15 @@ function Slot(props) {
     let date = [...dates];
     date.pop();
     setDates([obj, ...date]);
+    setSelectedTime({
+      idx: null,
+      timeOfTheDay: null,
+    });
   };
 
   const handleScrollRight = () => {
     let d = moment(dates[dates.length - 1].date).add(1, 'day');
+    handleDateClick(d);
     let obj = {
       date: d,
       id: Date.now(),
@@ -53,16 +66,26 @@ function Slot(props) {
     let date = [...dates];
     date.shift();
     setDates([...date, obj]);
+    setSelectedTime({
+      idx: null,
+      timeOfTheDay: null,
+    });
   };
 
-  const handleClickOnTime = (d) => {
+  const handleClickOnTime = (date, timeOfTheDay, idx) => {
     let dateTime = selectedDate;
-    dateTime += ' ' + d;
-    setSelectedDate(dateTime);
+    dateTime += ' ' + date;
+
+    setSelectedTime({
+      idx,
+      timeOfTheDay,
+    });
+    setTimeout(() => props.actionProvider.handleUserPickedSlot(dateTime), 300);
+    setTimeout(() => props.actionProvider.askUserName(), 900);
   };
 
   return (
-    <div>
+    <div className='mb-1'>
       <Slide
         data={dates}
         handleDateClick={handleDateClick}
@@ -70,12 +93,24 @@ function Slot(props) {
         handleScrollRight={handleScrollRight}
       />
       <div className='text-xs'>
-        <p className='m-1 mt-2 text-slate-500'>Morning</p>
-        <TimeSlot handleClickOnTime={handleClickOnTime} time={moring} />
-        <p className='m-1 mt-2 text-slate-500'>Afternoon</p>
-        <TimeSlot handleClickOnTime={handleClickOnTime} time={afternoon} />
-        <p className='m-1 mt-2 text-slate-500'>Evening</p>
-        <TimeSlot handleClickOnTime={handleClickOnTime} time={evening} />
+        <TimeSlot
+          activeElement={selectedTime}
+          handleClickOnTime={handleClickOnTime}
+          time={moring}
+          timeOfTheDay='morning'
+        />
+        <TimeSlot
+          activeElement={selectedTime}
+          handleClickOnTime={handleClickOnTime}
+          time={afternoon}
+          timeOfTheDay='afternoon'
+        />
+        <TimeSlot
+          activeElement={selectedTime}
+          handleClickOnTime={handleClickOnTime}
+          time={evening}
+          timeOfTheDay='evening'
+        />
       </div>
     </div>
   );
