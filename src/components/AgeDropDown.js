@@ -6,8 +6,9 @@ function AgeDropDown(props) {
   const [hidden, setHidden] = useState(false);
   const handleHide = () => setHidden(true);
   const onChange = (value) => {
+    props.actionProvider.handleUserMessage(value[0].value);
     handleHide();
-    props.actionProvider.handleUserAge();
+    setTimeout(() => props.actionProvider.handleUserAge(), 500);
   };
   const options = Array.from({ length: 23 }, (_, index) => {
     return {
@@ -32,6 +33,7 @@ function AgeDropDown(props) {
               style={{ width: '120px' }}
               options={options}
               onChange={(values) => onChange(values)}
+              searchable={false}
             />
           </div>
         </FadeIn>

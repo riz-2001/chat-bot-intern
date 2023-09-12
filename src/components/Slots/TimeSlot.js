@@ -1,7 +1,8 @@
 import React from 'react';
 
 function TimeSlot({ time, handleClickOnTime, timeOfTheDay, activeElement }) {
-  let classes = 'border-2 p-1 rounded-md whitespace-nowrap cursor-pointer ';
+  let classes =
+    'border-2 p-1 py-2  rounded-md whitespace-nowrap cursor-pointer ';
   const activeClass = classes + 'bg-sky-500 text-white';
   classes += 'text-gray-500 hover:bg-sky-500 hover:text-white';
   return (

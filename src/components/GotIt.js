@@ -8,7 +8,7 @@ function GotIt(props) {
 
   setTimeout(() => {
     setDelay(true);
-  }, 900);
+  }, 3500);
 
   return (
     <>

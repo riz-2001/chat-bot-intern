@@ -6,7 +6,7 @@ function InitialChatMessage() {
 
   setTimeout(() => {
     setChatMsg('Hello, Welcome to student info system!');
-  }, 500);
+  }, 3030);
 
   return <>{chatMsg ? <> {chatMsg}</> : <Loader />}</>;
 }
